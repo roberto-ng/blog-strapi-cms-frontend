@@ -17,6 +17,13 @@
     },
     "titulo": {
       "type": "string"
+    },
+    "capa": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

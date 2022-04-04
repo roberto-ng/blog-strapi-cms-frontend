@@ -1,8 +1,8 @@
 import type { NextPage, GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { Grid, Card, CardContent, Typography } from '@mui/material'
-import { buscarTodosPosts, Dado, Post } from '../lib/api'
+import { Grid, Button, Card, CardMedia, CardContent, CardActions, Typography } from '@mui/material'
+import { buscarTodosPosts, Dado, getMediaURL, Post } from '../lib/api'
 import styles from '../styles/Home.module.css'
 
 interface Props {
@@ -29,11 +29,21 @@ const Home: NextPage<Props> = ({ posts, erro }) => {
                     {posts.map((post) => (
                         <Grid item key={post.id} >
                             <Card sx={{ minWidth: 300, maxWidth: 300 }}>
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={getMediaURL(post.attributes.capa.data.attributes)}
+                                />
+
                                 <CardContent>
                                     <Typography variant="h5">
                                         {post.attributes.titulo}
                                     </Typography>
                                 </CardContent>
+
+                                <CardActions>
+                                    <Button>Ler mais</Button>
+                                </CardActions>
                             </Card>
                         </Grid>
                     ))}

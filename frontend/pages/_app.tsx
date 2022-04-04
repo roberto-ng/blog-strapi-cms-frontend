@@ -12,10 +12,10 @@ function MyApp(props: AppProps) {
     const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
     return (
         <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={temaEscuro}>
-            <CssBaseline />
-            <Component {...pageProps} />
-        </ThemeProvider>
+            <ThemeProvider theme={temaEscuro}>
+                <CssBaseline />
+                <Component {...pageProps} />
+            </ThemeProvider>
         </CacheProvider>
     );
 }
