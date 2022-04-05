@@ -3,7 +3,7 @@ import qs from 'qs'
 export interface Post {
     titulo: string,
     texto: string,
-    capa: Resposta< Dado<Midia> >,
+    capa: RespostaItem<Midia>,
     createdAt: string,
     updatedAt: string,
     publishedAt: string,
