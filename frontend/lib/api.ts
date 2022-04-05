@@ -36,7 +36,7 @@ export interface Dado<T> {
 }
 
 export interface Resposta<T> {
-    data: T,
+    data: T | null,
     meta: any,
 }
 
@@ -56,7 +56,7 @@ export function getMediaURL(
     midia: RespostaItem<Midia>, 
     formato: MidiaFormatoNome = 'thumbnail',
 ) {
-    const caminho = midia.data.attributes.formats[formato]?.url;
+    const caminho = midia.data?.attributes.formats[formato]?.url;
     if (caminho != null) {
         return getStrapiURL(caminho);
     } else {
@@ -64,7 +64,7 @@ export function getMediaURL(
     }
 }
 
-export async function buscarTodosPosts(): Promise<RespostaLista<Post>> {
+export async function buscarTodosPosts() {
     const url = getStrapiURL('/api/posts?populate=*');
     const resposta = await fetch(url);
     if (!resposta.ok) {
@@ -72,5 +72,19 @@ export async function buscarTodosPosts(): Promise<RespostaLista<Post>> {
         throw new Error(`Erro ${resposta.status}. Por favor, tente novamente`);
     }
 
-    return await resposta.json();
+    const posts: RespostaLista<Post> = await resposta.json();
+    return posts;
+}
+
+export async function buscarPost(id: string) {
+    const url = getStrapiURL(`/api/posts/${id}`);
+    const resposta = await fetch(url);
+
+    if (!resposta.ok) {
+        console.error(resposta.statusText);
+        throw new Error(`Erro ${resposta.status}. Por favor, tente novamente`);
+    }
+
+    const post: RespostaItem<Post> = await resposta.json();
+    return post;
 }

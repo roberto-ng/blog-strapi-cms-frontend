@@ -56,7 +56,7 @@ const Home: NextPage<Props> = ({ posts, erro }) => {
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
     try {
         const resposta = await buscarTodosPosts();
-        const posts = resposta.data;
+        const posts = resposta.data ?? [];
 
         return {
             props: {
