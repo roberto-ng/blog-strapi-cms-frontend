@@ -27,12 +27,12 @@ const Home: NextPage<Props> = ({ posts, erro }) => {
 
                 <Grid container justifyContent="center" spacing={3}>
                     {posts.map((post) => (
-                        <Grid item key={post.id} >
+                        <Grid item key={post.id}>
                             <Card sx={{ minWidth: 300, maxWidth: 300 }}>
                                 <CardMedia
                                     component="img"
-                                    height="140"
-                                    image={getMediaURL(post.attributes.capa.data.attributes)}
+                                    height="160"
+                                    image={getMediaURL(post.attributes.capa)}
                                 />
 
                                 <CardContent>

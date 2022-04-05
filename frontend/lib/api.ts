@@ -40,14 +40,23 @@ export interface Resposta<T> {
     meta: any,
 }
 
+/** Uma resposta da API com um único item */
+export type RespostaItem<T> = Resposta<Dado<T>>;
+
+/** Uma resposta da API com múltiplos itens */
+export type RespostaLista<T> = Resposta<Array<Dado<T>>>;
+
 /** Retorna a URL completa do Strapi */
 export function getStrapiURL(caminho = '') {
     const endereco = process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
     return `${endereco}${caminho}`;
 }
 
-export function getMediaURL(midia: Midia, formato: MidiaFormatoNome = 'thumbnail') {
-    const caminho = midia.formats[formato]?.url;
+export function getMediaURL(
+    midia: RespostaItem<Midia>, 
+    formato: MidiaFormatoNome = 'thumbnail',
+) {
+    const caminho = midia.data.attributes.formats[formato]?.url;
     if (caminho != null) {
         return getStrapiURL(caminho);
     } else {
@@ -55,7 +64,7 @@ export function getMediaURL(midia: Midia, formato: MidiaFormatoNome = 'thumbnail
     }
 }
 
-export async function buscarTodosPosts(): Promise<Resposta<Dado<Post>[]>> {
+export async function buscarTodosPosts(): Promise<RespostaLista<Post>> {
     const url = getStrapiURL('/api/posts?populate=*');
     const resposta = await fetch(url);
     if (!resposta.ok) {
