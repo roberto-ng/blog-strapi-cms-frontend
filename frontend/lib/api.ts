@@ -1,3 +1,5 @@
+import qs from 'qs'
+
 export interface Post {
     titulo: string,
     texto: string,
@@ -65,7 +67,11 @@ export function getMediaURL(
 }
 
 export async function buscarTodosPosts() {
-    const url = getStrapiURL('/api/posts?populate=*');
+    const query = qs.stringify({
+        populate: '*',
+        sort: 'createdAt:desc'
+    });
+    const url = getStrapiURL(`/api/posts?${query}`);
     const resposta = await fetch(url);
     if (!resposta.ok) {
         console.error(resposta.statusText);
