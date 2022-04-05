@@ -1,15 +1,58 @@
-import { FunctionComponent } from 'react'
-import { GetServerSideProps } from 'next'
-import { buscarPost, Dado, Post } from '../../lib/api';
+import Head from 'next/head';
+import Link from 'next/link'
+import { GetServerSideProps, NextPage } from 'next'
+import { IconButton, Paper, Typography } from '@mui/material'
+import ArrowBack from '@mui/icons-material/ArrowBackIosNew'
+import ReactMarkdown from 'react-markdown'
+import { buscarPost, Post } from '../../lib/api'
+import styles from '../../styles/Post.module.css'
 
 interface Props {
-    post?: Dado<Post>,
+    post?: Post,
     erro?: string,
 }
 
-const PaginaPost: FunctionComponent<Props> = ({post, erro}) => {
+const PaginaPost: NextPage<Props> = ({post, erro}) => {
+    if (erro != null) {
+        return (
+            <div>
+                <h5>{erro}</h5>
+            </div>
+        );
+    } else if (post == null) {
+        return (
+            <div>
+                <h5>Post não encontrado</h5>
+            </div>
+        );
+    }
+
     return (
-        <div>{post?.attributes?.titulo}</div>
+        <div>
+            <Head>
+                <title>{post.titulo} - Blog</title>
+            </Head>
+
+            <Link href="/">
+                <IconButton size="large">
+                    <ArrowBack />
+                </IconButton>
+            </Link>
+
+            <main className={styles.main}>
+                <article>
+                    <Paper elevation={3} sx={{ minWidth: 300, maxWidth: '100%', minHeight: 200, margin: 2 }}>
+                        <Typography variant="h5" align="center">
+                            {post.titulo}
+                        </Typography>
+
+                        <ReactMarkdown className={styles.postConteudo}>
+                            {post.texto}
+                        </ReactMarkdown>
+                    </Paper>
+                </article>
+            </main>
+        </div>
     );
 };
 
@@ -19,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
     if (typeof id === 'string') {
         try {
             const resposta = await buscarPost(id);
-            const post = resposta.data;
+            const post = resposta.data?.attributes;
 
             if (post != null) {
                 // Post encontrado com sucesso
