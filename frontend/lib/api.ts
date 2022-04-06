@@ -69,10 +69,11 @@ export function getMediaURL(
 export async function buscarTodosPosts() {
     const query = qs.stringify({
         populate: '*',
-        sort: 'createdAt:desc'
+        sort: 'createdAt:desc' // Ordenar da data mais recente até a mais antiga
     });
     const url = getStrapiURL(`/api/posts?${query}`);
     const resposta = await fetch(url);
+
     if (!resposta.ok) {
         console.error(resposta.statusText);
         throw new Error(`Erro ${resposta.status}. Por favor, tente novamente`);
