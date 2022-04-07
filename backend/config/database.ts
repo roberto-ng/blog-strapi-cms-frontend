@@ -1,7 +1,6 @@
 import path from 'path';
 
 export default ({ env }) => {
-  console.log('a')
   return {
     connection: {
       client: 'sqlite',
