@@ -1,6 +1,6 @@
-import { parse } from 'pg-connection-string'
+const { parse } = require("pg-connection-string");
 
-export default ({ env }) => {
+module.exports = ({ env }) => {
     const { host, port, database, user, password } = parse(env('DATABASE_URL'));
 
     return {
