@@ -10,6 +10,8 @@ interface Props {
     erro?: string,
 }
 
+const capaPadrao = 'https://i.imgur.com/SjKNdU4.jpg';
+
 const Home: NextPage<Props> = ({ posts, erro }) => {
     return (
         <div className={styles.container}>
@@ -32,7 +34,7 @@ const Home: NextPage<Props> = ({ posts, erro }) => {
                                 <CardMedia
                                     component="img"
                                     height="160"
-                                    image={getMediaURL(post.attributes.capa)}
+                                    image={capaPadrao}
                                 />
 
                                 <CardContent>
