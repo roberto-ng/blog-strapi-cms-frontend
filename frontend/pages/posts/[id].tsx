@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link'
 import { GetServerSideProps, NextPage } from 'next'
+import { useMemo } from 'react';
 import { IconButton, Paper, Typography } from '@mui/material'
 import ArrowBack from '@mui/icons-material/ArrowBackIosNew'
 import ReactMarkdown from 'react-markdown'
@@ -13,6 +14,15 @@ interface Props {
 }
 
 const PaginaPost: NextPage<Props> = ({post, erro}) => {
+    const dataFormatada = useMemo(() => {
+        if (post != null) {
+            const data = new Date(post.createdAt);
+            return formatarData(data);
+        } 
+
+        return '';
+    }, []);
+
     if (erro != null) {
         return (
             <div>
@@ -44,6 +54,10 @@ const PaginaPost: NextPage<Props> = ({post, erro}) => {
                     <Paper elevation={3} sx={{ minWidth: 300, maxWidth: '100%', minHeight: 200, margin: 2 }}>
                         <Typography variant="h5" align="center">
                             {post.titulo}
+                        </Typography>
+                        
+                        <Typography variant="subtitle1" style={{ marginLeft: 10, marginBottom: 0 }}>
+                            {dataFormatada}
                         </Typography>
 
                         <ReactMarkdown className={styles.postConteudo}>
@@ -86,5 +100,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
         notFound: true,
     };
 };
+
+function formatarData(data: Date, locale: string = 'pt-BR') {
+    const horaFormatada = data.toLocaleTimeString(locale);
+    const dataFormatada = data.toLocaleDateString(locale, { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+    });
+
+
+    return `${dataFormatada} - ${horaFormatada}`;
+}
 
 export default PaginaPost
