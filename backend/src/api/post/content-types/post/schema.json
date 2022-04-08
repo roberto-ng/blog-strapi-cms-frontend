@@ -4,23 +4,25 @@
   "info": {
     "singularName": "post",
     "pluralName": "posts",
-    "displayName": "Post",
-    "description": ""
+    "displayName": "Post"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "texto": {
-      "type": "richtext"
-    },
     "titulo": {
       "type": "string"
     },
+    "texto": {
+      "type": "richtext"
+    },
     "capa": {
       "allowedTypes": [
-        "images"
+        "images",
+        "files",
+        "videos",
+        "audios"
       ],
       "type": "media",
       "multiple": false
